@@ -1,13 +1,12 @@
 ---
 name: Bug report
 about: Please follow this template to submit bug reports.
-title: ''
+title: ""
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
-<!-- Please read the filing issues section of the contributor's guide first: https://camelot-py.readthedocs.io/en/master/dev/contributing.html -->
+<!-- Please read the filing issues section of the contributor's guide first: https://camelot-py.readthedocs.io/en/latest/dev/contributing.html#filing-issues -->
 
 **Describe the bug**
 
@@ -27,10 +26,9 @@ assignees: ''
 
 **Code**
 
-<!-- Add the Camelot code snippet that you used. -->
+<!-- Add the camelot code snippet that you used. -->
 
 ```
-import camelot
 
 # add your code here
 ```
@@ -50,7 +48,7 @@ import camelot
 - Numpy version:
 - OpenCV version:
 - Ghostscript version:
-- Camelot version:
+- camelot version:
 
 **Additional context**
 

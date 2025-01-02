@@ -1,5 +1,5 @@
-.. Camelot documentation master file, created by
-   sphinx-quickstart on Tue Jul 19 13:44:18 2016.
+.. documentation master file, created by
+   sphinx-quickstart
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -8,15 +8,12 @@ Camelot: PDF Table Extraction for Humans
 
 Release v\ |version|. (:ref:`Installation <install>`)
 
-.. image:: https://travis-ci.org/camelot-dev/camelot.svg?branch=master
-    :target: https://travis-ci.org/camelot-dev/camelot
-
-.. image:: https://readthedocs.org/projects/camelot-py/badge/?version=master
-    :target: https://camelot-py.readthedocs.io/en/master/
+.. image:: https://readthedocs.org/projects/camelot-py/badge/?version=latest
+    :target: https://camelot-py.readthedocs.io/
     :alt: Documentation Status
 
-.. image:: https://codecov.io/github/camelot-dev/camelot/badge.svg?branch=master&service=github
-    :target: https://codecov.io/github/camelot-dev/camelot?branch=master
+.. image:: https://codecov.io/github/camelot-dev/camelot/badge.svg?branch=main&service=github
+    :target: https://codecov.io/github/camelot-dev/camelot/?branch=main
 
 .. image:: https://img.shields.io/pypi/v/camelot-py.svg
     :target: https://pypi.org/project/camelot-py/
@@ -27,28 +24,27 @@ Release v\ |version|. (:ref:`Installation <install>`)
 .. image:: https://img.shields.io/pypi/pyversions/camelot-py.svg
     :target: https://pypi.org/project/camelot-py/
 
-.. image:: https://badges.gitter.im/camelot-dev/Lobby.png
-    :target: https://gitter.im/camelot-dev/Lobby
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/ambv/black
+**Camelot** is a Python library that can help you extract tables from PDFs.
 
-.. image:: https://img.shields.io/badge/continous%20quality-deepsource-lightgrey
-    :target: https://deepsource.io/gh/camelot-dev/camelot/?ref=repository-badge
-
-**Camelot** is a Python library that can help you extract tables from PDFs!
-
-.. note:: You can also check out `Excalibur`_, the web interface to Camelot!
+.. note:: You can also check out `Excalibur`_, the web interface to Camelot.
 
 .. _Excalibur: https://github.com/camelot-dev/excalibur
 
 ----
 
-**Here's how you can extract tables from PDFs.** You can check out the PDF used in this example `here`_.
+**Extract tables from PDFs in just a few lines of code:**
 
-.. _here: _static/pdf/foo.pdf
+.. |colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/camelot-dev/camelot/blob/master/examples/camelot-quickstart-notebook.ipynb
 
-::
+Try it yourself in our interactive quickstart notebook. |colab|
+
+Or check out a simple example using `this pdf`_.
+
+.. _this pdf: _static/pdf/foo.pdf
+
+.. code-block:: pycon
 
     >>> import camelot
     >>> tables = camelot.read_pdf('foo.pdf')
@@ -79,7 +75,7 @@ You can check out some frequently asked questions :ref:`here <faq>`.
 .. _explains: https://github.com/tabulapdf/tabula#why-tabula
 
 Why Camelot?
-------------
+---------------------------
 
 - **Configurability**: Camelot gives you control over the table extraction process with :ref:`tweakable settings <advanced>`.
 - **Metrics**: You can discard bad tables based on metrics like accuracy and whitespace, without having to manually look at each table.
@@ -91,12 +87,6 @@ See `comparison with similar libraries and tools`_.
 
 .. _comparison with similar libraries and tools: https://github.com/camelot-dev/camelot/wiki/Comparison-with-other-PDF-Table-Extraction-libraries-and-tools
 
-Support the development
------------------------
-
-If Camelot has helped you, please consider supporting its development with a one-time or monthly donation `on OpenCollective`_!
-
-.. _on OpenCollective: https://opencollective.com/camelot
 
 The User Guide
 --------------
@@ -114,6 +104,7 @@ This part of the documentation begins with some background information about why
    user/advanced
    user/faq
    user/cli
+
 
 The API Documentation/Guide
 ---------------------------
@@ -134,3 +125,4 @@ If you want to contribute to the project, this part of the documentation is for 
    :maxdepth: 2
 
    dev/contributing
+   Changelog <https://github.com/camelot-dev/camelot/releases>

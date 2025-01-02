@@ -1,60 +1,75 @@
-# -*- coding: utf-8 -*-
-
 import pytest
 
-import camelot.backends.image_conversion
 from camelot.backends import ImageConversionBackend
 
 
-class PopplerBackendError(object):
+@pytest.fixture
+def patch_backends(monkeypatch):
+    monkeypatch.setattr(
+        "camelot.backends.image_conversion.BACKENDS",
+        {
+            "poppler": PopplerBackendError,
+            "ghostscript": GhostscriptBackendNoError,
+            "pdfdium": PdfiumBackendError,
+        },
+        raising=True,
+    )
+
+
+class PopplerBackendError:
     def convert(self, pdf_path, png_path):
         raise ValueError("Image conversion failed")
 
 
-class GhostscriptBackendError(object):
+class GhostscriptBackendError:
     def convert(self, pdf_path, png_path):
         raise ValueError("Image conversion failed")
 
 
-class GhostscriptBackendNoError(object):
+class GhostscriptBackendNoError:
     def convert(self, pdf_path, png_path):
         pass
 
 
-def test_poppler_backend_error_when_no_use_fallback(monkeypatch):
-    BACKENDS = {
-        "poppler": PopplerBackendError,
-        "ghostscript": GhostscriptBackendNoError,
-    }
-    monkeypatch.setattr(
-        "camelot.backends.image_conversion.BACKENDS", BACKENDS, raising=True
-    )
-    backend = ImageConversionBackend(use_fallback=False)
+class PdfiumBackendError:
+    def convert(self, pdf_path, png_path):
+        raise ValueError("Image conversion failed")
 
-    message = "Image conversion failed with image conversion backend 'poppler'"
+
+def test_poppler_backend_error_when_no_use_fallback(patch_backends):
+    backend = ImageConversionBackend(backend="poppler", use_fallback=False)
+
+    message = r"Image conversion failed with image conversion backend.+Poppler"
     with pytest.raises(ValueError, match=message):
         backend.convert("foo", "bar")
 
 
-def test_ghostscript_backend_when_use_fallback(monkeypatch):
-    BACKENDS = {
-        "poppler": PopplerBackendError,
-        "ghostscript": GhostscriptBackendNoError,
-    }
-    monkeypatch.setattr(
-        "camelot.backends.image_conversion.BACKENDS", BACKENDS, raising=True
-    )
-    backend = ImageConversionBackend()
+def test_ghostscript_backend_when_use_fallback(patch_backends):
+    backend = ImageConversionBackend(backend="ghostscript")
     backend.convert("foo", "bar")
 
 
 def test_ghostscript_backend_error_when_use_fallback(monkeypatch):
-    BACKENDS = {"poppler": PopplerBackendError, "ghostscript": GhostscriptBackendError}
-    monkeypatch.setattr(
-        "camelot.backends.image_conversion.BACKENDS", BACKENDS, raising=True
-    )
-    backend = ImageConversionBackend()
+    """Use an image conversion backend and let it fallback to ghostscript.
 
-    message = "Image conversion failed with image conversion backend 'ghostscript'"
+    Then capture the error message of the second backend (the fallback).
+    """
+    backends = {
+        "pdfium": PdfiumBackendError,
+        "ghostscript": GhostscriptBackendError,
+        "poppler": PopplerBackendError,
+    }
+
+    monkeypatch.setattr(
+        "camelot.backends.image_conversion.BACKENDS", backends, raising=True
+    )
+    backend = ImageConversionBackend(backend="pdfium")
+
+    message = "Image conversion failed with image conversion backend 'ghostscript'\n error: Image conversion failed"
     with pytest.raises(ValueError, match=message):
         backend.convert("foo", "bar")
+
+
+@pytest.mark.xfail
+def test_invalid_backend():
+    ImageConversionBackend(backend="invalid_backend")
